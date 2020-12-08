@@ -6,3 +6,6 @@
 {% block body %}
   <div class="container">
     {{ form_strat(form)}}
+    <div class="col-8" id="home-custom-id">
+      {{ form_label(form.nom, 'Nom') }}
+      {{ form_widget(form.nom, {'attr' : {'placeholder': 'Nom du contact'}}) }}
