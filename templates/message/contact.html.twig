@@ -1,11 +1,28 @@
 {# empty Twig template #}
-{% extends 'base.html.twig' %}
+{% extends './base.html.twig' %}
 
 {% block title %}Contact {% endblock %}
 
 {% block body %}
   <div class="container">
-    {{ form_strat(form)}}
-    <div class="col-8" id="home-custom-id">
+    {{ form_start(form)}}
+    <div class="col-8" id="some-custom-id">
       {{ form_label(form.nom, 'Nom') }}
       {{ form_widget(form.nom, {'attr' : {'placeholder': 'Nom du contact'}}) }}
+    </div>
+    <div class="col-8" id="some-custom-id">
+      {{ form_label(form.prenom, 'Prénom') }}
+      {{ form_widget(form.prenom, {'attr' : {'placeholder': 'Prénom du contact'}}) }}
+    </div>
+    <div class="col-8" id="some-custom-id">
+      {{ form_label(form.mail, 'Mail') }}
+      {{ form_widget(form.mail, {'attr' : {'placeholder': 'Adresse mail'}}) }}
+    </div>
+    <div class="form-group">
+      {{ form_label(form.message, 'Message') }}
+      {{ form_widget(form.message, {'attr' : {'placeholder': 'Que voulez-vous me dire ?'}}) }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Envoyer</button>
+    {{ form_end(form) }}
+  {% endblock %}
