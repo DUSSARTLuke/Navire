@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -8,27 +9,30 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\NavireRepository;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * @Route("/search", name="search_")
  */
-class SearchController extends AbstractController
-{
+class SearchController extends AbstractController {
 
-  public function searchBar(){
+  public function searchBar() {
     $form = $this->createFormBuilder()
-            ->setAction($this->generateUrl("search_handlesearch"))
-            ->add('cherche', TextType::class)
-            ->add('envoiimo', SubmitType::class)
-            ->add('envoimmsi', SubmitType::class)
-            ->getForm()
-      ;
+      ->setAction($this->generateUrl("search_handlesearch"))
+      ->add('cherche', TextType::class)
+      ->add('choix', ChoiceType::class, array(
+        'choices' => array(
+          'IMO' => 'imo',
+          'MMSI' => 'mmsi'), 'multiple' => false,
+        'expanded' => true))
+      ->add('envoi', SubmitType::class)
+      ->getForm()
+    ;
     return $this->render('elements/searchbar.html.twig', [
-                  'formSearch' => $form->createView()
+        'formSearch' => $form->createView()
     ]);
   }
-  
-  
+
   /**
    * 
    * @Route("/handlesearch", name="handlesearch")
@@ -36,13 +40,15 @@ class SearchController extends AbstractController
    * @param NavireRepository $repo
    * @return Response
    */
-  public function handleSearh(Request $request, NavireRepository $repo) : Response {
+  public function handleSearh(Request $request, NavireRepository $repo): Response {
     $valeur = $request->request->get('form')['cherche'];
-    if(isset($request->request->get('form')['envoiimo'])){
-      $critere = "imo Recherché : " . $valeur;
-    } else {
-      $critere = "mmsi recherché " . $valeur;
-    }
+    if($request->request->get('form')['choix']=='imo'){
+            $critere="Imo recherché : ". $valeur;
+        }
+        else{
+            $critere="MMSI recherché : ".$valeur;
+        }
     return new Response("<h1> $critere </h1>");
   }
+
 }

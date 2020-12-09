@@ -11,11 +11,13 @@
   </head>
 
   {% include 'elements/navbar.html.twig' %}
-  {% for message in app.flashes('notification') %}
-    <div class="alert alert-warning">
-      {{ message }}
-    </div>
-  {% endfor %}
+  {% for label, messages in app.flashes(['warning', 'notification']) %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
   <body>
 
     {% include 'elements/footer.html.twig' %}

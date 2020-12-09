@@ -34,6 +34,9 @@ class MessageController extends AbstractController
       $this->addFlash('notification', "Votre message a bien été envoyé");
       return $this->redirectToRoute("message_contact");
     }
+    if( $form->isSubmitted() && !($form->isValid())){
+      $this->addFlash('warning', "Votre message n'a pas bien été envoyé, votre message est trop court");
+    }
     return $this->render('message/contact.html.twig', [
         'form' => $form->createView(),
     ]);
