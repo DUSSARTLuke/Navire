@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\MessageType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Message;
+use App\Service\GestionContact;
 
 /**
  * @Route("/message", name="message_")
@@ -17,23 +18,21 @@ class MessageController extends AbstractController
   /**
    * @Route("/contact", name="contact")
    */
-  public function formContact(Request $request)
+  public function formContact(Request $request, GestionContact $gestionContact)
   {
-    $contact = new Message();
-    $form = $this->createForm(MessageType::class, $contact);
+    $message = new Message();
+    $form = $this->createForm(MessageType::class, $message);
 
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
 
+
+      $message = $form->getData();
+
+      $gestionContact->envoiMailContact($message);
+
       $this->addFlash('notification', "Votre message a bien été envoyé");
-      $contact = $form->getData();
-      $contact->setDateHeureContact(new \DateTime());
-      //$gestionContact->creerContact($contact);
-
-      //$gestionContact->envoiMailContact($contact);
-
-
-      //return $this->redirectToRoute("contact_success");
+      return $this->redirectToRoute("message_contact");
     }
     return $this->render('message/contact.html.twig', [
         'form' => $form->createView(),

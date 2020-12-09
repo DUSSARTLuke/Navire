@@ -10,8 +10,13 @@
 
   </head>
 
+  {% include 'elements/navbar.html.twig' %}
+  {% for message in app.flashes('notification') %}
+    <div class="alert alert-warning">
+      {{ message }}
+    </div>
+  {% endfor %}
   <body>
-    {% include 'elements/navbar.html.twig' %}
 
     {% include 'elements/footer.html.twig' %}
     {% block body %}
