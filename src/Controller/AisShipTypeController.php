@@ -23,7 +23,7 @@ class AisShipTypeController extends AbstractController
     
     
     /**
-     * @Route("/voirtous", name="voirtous")
+     * @Route("voirtous", name="voirtous")
      * 
      * @return Response
      */
