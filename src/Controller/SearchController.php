@@ -25,7 +25,7 @@ class SearchController extends AbstractController {
           'IMO' => 'imo',
           'MMSI' => 'mmsi'), 'multiple' => false,
         'expanded' => true))
-      ->add('envoi', SubmitType::class)
+      ->add('Rechercher', SubmitType::class)
       ->getForm()
     ;
     return $this->render('elements/searchbar.html.twig', [
