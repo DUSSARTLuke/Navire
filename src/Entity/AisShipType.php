@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @ORM\Entity(repositoryClass=AisShipTypeRepository::class)
+ * @ORM\Table(name="aisshiptype")
  */
 class AisShipType
 {
@@ -25,7 +26,7 @@ class AisShipType
     private $libelle;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="aisshiptype")
      * @Assert\Length(min=1,
      *              max =9,
      *              minMessage = "Le type d'un navire est compris entre 1 et 9",
