@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Range;
 
 /**
  * @ORM\Entity(repositoryClass=NavireRepository::class)
@@ -54,7 +55,7 @@ class Navire
     private $mmsi;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, name="indicatifAppel")
      */
     private $indicatifAppel;
 
@@ -65,7 +66,7 @@ class Navire
     
 
     /**
-     * @ORM\Column(name="idAisShipType")
+     * @ORM\Column(name="idaisshiptype")
      * @ORM\ManyToOne(targetEntity=AisShipType::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -87,6 +88,29 @@ class Navire
      * @ORM\OneToMany(targetEntity=Escale::class, mappedBy="leNavire", orphanRemoval=true)
      */
     private $lesEscales;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *              min= 0,
+     *              notInRangeMessage = " La longueur doit être supérieure à {{ min }}"
+     *              )
+     */
+    private $longueur;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *              min= 0,
+     *              notInRangeMessage = " La largeur doit être supérieure à {{ min }}"
+     *              )
+     */
+    private $largeur;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=1, name="tirantdeau")
+     */
+    private $tirant_eau;
 
     public function __construct()
     {
@@ -221,6 +245,42 @@ class Navire
                 $lesEscale->setLeNavire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLongueur(): ?int
+    {
+        return $this->longueur;
+    }
+
+    public function setLongueur(int $longueur): self
+    {
+        $this->longueur = $longueur;
+
+        return $this;
+    }
+
+    public function getLargeur(): ?int
+    {
+        return $this->largeur;
+    }
+
+    public function setLargeur(int $largeur): self
+    {
+        $this->largeur = $largeur;
+
+        return $this;
+    }
+
+    public function getTirantEau(): ?string
+    {
+        return $this->tirant_eau;
+    }
+
+    public function setTirantEau(string $tirant_eau): self
+    {
+        $this->tirant_eau = $tirant_eau;
 
         return $this;
     }
