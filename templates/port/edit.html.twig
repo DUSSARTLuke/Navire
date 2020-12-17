@@ -20,8 +20,8 @@
         {{ form_widget(form.lePays, {'attr': {'class': "form-control"}}) }}
       </div>
       <div class="col-4 form-row" id="some-custom-id">
-        {{ form_label(form.lesTypes, 'Types de navires acceptés') }}
-        {{ form_widget(form.lesTypes) }}
+        {{ form_label(form.lesTypes, 'Types de navires acceptés', {'attr': {'class': 'col-form-label'}}) }}
+        {{ form_widget(form.lesTypes, {'attr': {'class': 'form-check-label'}}) }}
       </div>
     </div>
     <button type="submit" class="btn btn-success">Créer</button>
