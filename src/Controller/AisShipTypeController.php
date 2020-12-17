@@ -42,7 +42,6 @@ class AisShipTypeController extends AbstractController
   {
     $aisshiptype = $repo->find($id);
     $ports = $aisshiptype->getLesPorts();
-    
-    return $this->render('port/voirtoustypes.html.twig', ['ports' => $ports]);
+    return $this->render('port/voirtous.html.twig', ['ports' => $ports, 'type' => $aisshiptype]);
   }
 }

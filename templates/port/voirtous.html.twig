@@ -1,8 +1,14 @@
 {# empty Twig template #}
 {% extends 'base.html.twig' %}
 
-{% block title %} Ports par types{% endblock %}
+{% block title %} Ports{% endblock %}
 {% block body %}
+  {% if type %}
+    <h3> Ports Compatibles </h3>
+    <h4> Type de navire : {{ type.id }} - {{ type.libelle }} </h4>
+    {% else %}
+      <h2> Non </h2>
+      {% endif %}
   <div class="container" style="padding-top:10px;">
     <table class="table table-striped table-dark">
       <thead class="thead-dark">
