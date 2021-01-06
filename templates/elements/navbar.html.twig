@@ -12,26 +12,31 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../../aisshiptype/voirtous/">Voir tous</a>
+        <a class="nav-link" href="../../aisshiptype/voirtous/">Authentification</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Navire</a>
+        <div class="dropdown-menu bg-light">
+          <a class="dropdown-item" href="../../navire/creer">Créer un navire</a>
+          <a class="dropdown-item" href="../../navire/voirtous">Voir les navires</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="../../aisshiptype/voirtous">Voir les types de navire</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Port</a>
+        <div class="dropdown-menu bg-light">
+          <a class="dropdown-item" href="../../port/creer">Créer un port</a>
+          <a class="dropdown-item" href="../../port/voirtous">Voir les ports</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="../../aisshiptype/voirtous">Voir les types de navire</a>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="../../message/contact/">Contact</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../../port/creer">Créer Port</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Separated link</a>
-        </div>
-      </li>
     </ul>
-   {{ render(controller(
+    {{ render(controller(
               'App\\Controller\\SearchController::searchBar'
             )) }}
   </div>

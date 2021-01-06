@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,9 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /**
  * @Route("/search", name="search_")
  */
-class SearchController extends AbstractController {
+class SearchController extends AbstractController
+{
 
-  public function searchBar() {
+  public function searchBar()
+  {
     $form = $this->createFormBuilder()
       ->setAction($this->generateUrl("search_handlesearch"))
       ->add('cherche', TextType::class)
@@ -40,15 +41,16 @@ class SearchController extends AbstractController {
    * @param NavireRepository $repo
    * @return Response
    */
-  public function handleSearh(Request $request, NavireRepository $repo): Response {
+  public function handleSearh(Request $request, NavireRepository $repo): Response
+  {
     $valeur = $request->request->get('form')['cherche'];
-    if($request->request->get('form')['choix']=='imo'){
-            $critere="Imo recherché : ". $valeur;
-        }
-        else{
-            $critere="MMSI recherché : ".$valeur;
-        }
-    return new Response("<h1> $critere </h1>");
-  }
 
+    if ($request->request->get('form')['choix'] == 'imo') {
+      $id = intval($repo->getIdby('imo', $valeur));
+    } else {
+      $id = intval($repo->getIdby('mmsi', $valeur));
+    }
+    var_dump($id);
+    return $this->redirectToRoute('navire_modifier', ['id' => $id]);
+  }
 }
