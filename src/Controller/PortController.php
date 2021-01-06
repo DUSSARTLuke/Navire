@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\PortType;
 use App\Entity\Port;
+use App\Repository\PortRepository;
 
 /**
  * @Route("/port", name="port_")
@@ -15,6 +16,19 @@ use App\Entity\Port;
 class PortController extends AbstractController
 {
 
+  /**
+   * 
+   * @Route("/voirtous", name="voirtous")
+   * @param PortRepository $repo
+   * @return type
+   */
+  public function voirtous(PortRepository $repo){
+    $ports = $repo->findAll();
+    
+    return $this->render('port/voirtous.html.twig', [
+      'ports' => $ports, 'type' => false
+    ]);
+  }
   /**
    * 
    * @Route("/creer", name="creer")
