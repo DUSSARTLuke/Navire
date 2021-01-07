@@ -17,6 +17,9 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use App\Service\GestionContact;
 
+/**
+     * @Route("/user", name="user_")
+     */
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
@@ -50,16 +53,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $inscrit->envoiMailConfirmation($user);
-            // generate a signed url and email it to the user
-            /*$this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('lukedussart@hotmail.fr', 'Contact Inscription'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );*/
-            // do anything else you need here, like send an email
-
+            
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
@@ -68,7 +62,7 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('user/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
