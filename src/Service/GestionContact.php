@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use \Mailjet\Resources;
 //use \Mailjet\Client;
 use App\Entity\Message;
+use App\Entity\User;
 
 /**
  * Description of GestionContact
@@ -25,7 +26,7 @@ class GestionContact
 
   public static function envoiMailContact(Message $message)
   {
-    $mj = new \Mailjet\Client('b9db8d259d359ad10412b99084c89054', '0e8aeeacaa0512455828d76ee9562b56', true, ['version' => 'v3.1']);
+    $mj = new \Mailjet\Client('3a2cf065781f74b50b701d94b93d66d2', '869c3aa7be089c0e60134da8e7cbe3dd', true, ['version' => 'v3.1']);
     $body = [
       'Messages' => [
         [
@@ -49,8 +50,37 @@ class GestionContact
     $response = $mj->post(Resources::$Email, ['body' => $body]);
     $response->success() && var_dump($response->getData());
 
-    $coucou = 0;
   }
+
+  
+  public static function envoiMailConfirmation(User $user)
+  {
+    $mj = new \Mailjet\Client('3a2cf065781f74b50b701d94b93d66d2', '869c3aa7be089c0e60134da8e7cbe3dd', true, ['version' => 'v3.1']);
+    $body = [
+      'Messages' => [
+        [
+          'From' => [
+            'Email' => "lukedussart@hotmail.fr",
+            'Name' => "Luke"
+          ],
+          'To' => [
+            [
+              'Email' => $user->getEmail(),
+              'Name' => $user->getNom()
+            ]
+          ],
+          'Subject' => "Greetings from Mailjet.",
+          'TextPart' => "My first Mailjet email",
+          'HTMLPart' => "<h3> Vous venez de vous inscrire sur DussartNavalCorps</h3>",
+          'CustomID' => "AppGettingStartedTest"
+        ]
+      ]
+    ];
+    $response = $mj->post(Resources::$Email, ['body' => $body]);
+    $response->success() && var_dump($response->getData());
+
+  }
+
 
   public static function EnregistrerMessage(Message $message): void
   {
