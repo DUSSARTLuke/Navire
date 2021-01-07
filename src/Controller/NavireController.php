@@ -9,6 +9,7 @@ use App\Form\NavireType;
 use App\Repository\NavireRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/navire", name="navire_")
@@ -28,14 +29,19 @@ class NavireController extends AbstractController
    * @Route("/creer", name="creer")
    * @param Request $request
    * @param EntityManagerInterface $manager
+   * @IsGranted("ROLE_ADMIN")
    * @return Response
    */
   public function creer(Request $request, EntityManagerInterface $manager, NavireRepository $repo): Response
   {
+    
+    
+    
     $navire = new Navire();
     $form = $this->createForm(NavireType::class, $navire);
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
+      
       $manager->persist($navire);
       $manager->flush();
       return $this->redirectToRoute('home');

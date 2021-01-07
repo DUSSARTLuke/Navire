@@ -46,7 +46,7 @@ class SearchController extends AbstractController
     $valeur = $request->request->get('form')['cherche'];
 
     if ($request->request->get('form')['choix'] == 'imo') {
-      $id = intval($repo->getIdby('imo', $valeur));
+      $id = $repo->getIdby('imo', $valeur);
     } else {
       $id = intval($repo->getIdby('mmsi', $valeur));
     }
