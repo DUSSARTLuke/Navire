@@ -50,7 +50,6 @@ class SearchController extends AbstractController
     } else {
       $id = intval($repo->getIdby('mmsi', $valeur));
     }
-    var_dump($id);
     return $this->redirectToRoute('navire_modifier', ['id' => $id]);
   }
 }
