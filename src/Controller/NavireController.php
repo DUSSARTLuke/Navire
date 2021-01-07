@@ -22,29 +22,28 @@ class NavireController extends AbstractController
         'controller_name' => 'NavireController',
     ]);
   }
-  
-   /**
+
+  /**
    * 
    * @Route("/creer", name="creer")
    * @param Request $request
    * @param EntityManagerInterface $manager
    * @return Response
    */
-  public function creer(Request $request, EntityManagerInterface $manager, NavireRepository $repo) : Response {
+  public function creer(Request $request, EntityManagerInterface $manager, NavireRepository $repo): Response
+  {
     $navire = new Navire();
     $form = $this->createForm(NavireType::class, $navire);
     $form->handleRequest($request);
-    if($form->isSubmitted() && $form->isValid()){
+    if ($form->isSubmitted() && $form->isValid()) {
       $manager->persist($navire);
       $manager->flush();
       return $this->redirectToRoute('home');
     }
     return $this->render('navire/creer.html.twig',
-      ['form' => $form->createView(),
-        ]);
+        ['form' => $form->createView()]);
   }
-  
-  
+
   /**
    * 
    * @Route("/modifier/{id}", name="modifier")
@@ -52,18 +51,19 @@ class NavireController extends AbstractController
    * @param EntityManagerInterface $manager
    * @return Response
    */
-  public function modifier(Request $request, EntityManagerInterface $manager, int $id, NavireRepository $repo) : Response {
+  public function modifier(Request $request, EntityManagerInterface $manager, int $id, NavireRepository $repo): Response
+  {
     //$port = new Port();
     $navire = $repo->find($id);
     $form = $this->createForm(NavireType::class, $navire);
     $form->handleRequest($request);
-    if($form->isSubmitted() && $form->isValid()){
+    if ($form->isSubmitted() && $form->isValid()) {
       $manager->persist($navire);
       $manager->flush();
       return $this->redirectToRoute('home');
     }
     return $this->render('navire/modification.html.twig',
-      ['form' => $form->createView(),
-        ]);
+        ['form' => $form->createView(), 'imo' => $navire->getImo(), 'mmsi' => $navire->getMmsi()
+    ]);
   }
 }
