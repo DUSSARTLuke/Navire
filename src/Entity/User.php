@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,10 +27,6 @@ class User implements UserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -45,6 +43,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=100)
      */
     private $prenom;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="lesUsers")
+     */
+    private $lesRoles;
+
+    public function __construct()
+    {
+        $this->lesRoles = new ArrayCollection();
+    }
 
     
 
@@ -158,6 +166,33 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getLesRoles(): Collection
+    {
+        return $this->lesRoles;
+    }
+
+    public function addLesRole(Role $lesRole): self
+    {
+        if (!$this->lesRoles->contains($lesRole)) {
+            $this->lesRoles[] = $lesRole;
+            $lesRole->addLesUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesRole(Role $lesRole): self
+    {
+        if ($this->lesRoles->removeElement($lesRole)) {
+            $lesRole->removeLesUser($this);
+        }
 
         return $this;
     }

@@ -34,6 +34,12 @@
     </div>
     <div class="form-row">
       <div class="form-check" style="align-items: center;">
+        {{ form_label(registrationForm.roles) }}
+        {{ form_widget(registrationForm.roles) }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-check" style="align-items: center;">
         {{ form_label(registrationForm.agreeTerms, 'Veuillez accepter les conditions tout de suite !!!') }}
         {{ form_widget(registrationForm.agreeTerms) }}
       </div>

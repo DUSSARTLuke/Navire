@@ -19,6 +19,7 @@ use App\Service\GestionContact;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Role;
 
 /**
  * @Route("/user", name="user_")
@@ -35,10 +36,12 @@ class UserController extends AbstractController {
   /**
    * @Route("/inscription", name="inscription")
    */
-  public function register(GestionContact $inscrit, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response {
+  public function register(Role $role, GestionContact $inscrit, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response {
     $user = new User();
     $form = $this->createForm(userFormType::class, $user);
     $form->handleRequest($request);
+    $role = new Role();
+    $role->getLibelle('ROLE_ADMIN');
 
     if ($form->isSubmitted() && $form->isValid()) {
       // encode the plain password
@@ -48,7 +51,7 @@ class UserController extends AbstractController {
           $form->get('plainPassword')->getData()
         )
       );
-      $user->setRoles(['ROLE_USER']);
+      $user->addLesRole($role);
 
       $entityManager = $this->getDoctrine()->getManager();
       $entityManager->persist($user);

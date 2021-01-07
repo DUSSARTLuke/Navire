@@ -13,47 +13,53 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\RoleType;
 
-class UserFormType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('email', EmailType::class)
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Votre mot de passe doit dépasser les {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
-          -> add('nom', TextType::class)
-          -> add('prenom', TextType::class)
-          -> add('roles', TextType::class)
-          ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Veuillez accepter les conditions tout de suite !!!',
-                    ]),
-                ],
-            ])
-        ;
-    }
+class UserFormType extends AbstractType {
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
-    }
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $builder
+    ->add('email', EmailType::class)
+    ->add('plainPassword', PasswordType::class, [
+    // instead of being set onto the object directly,
+    // this is read and encoded in the controller
+    'mapped' => false,
+    'constraints' => [
+    new NotBlank([
+    'message' => 'Veuillez entrer un mot de passe',
+    ]),
+    new Length([
+    'min' => 8,
+    'minMessage' => 'Votre mot de passe doit dépasser les {{ limit }} caractères',
+    // max length allowed by Symfony for security reasons
+    'max' => 4096,
+    ]),
+    ],
+    ])
+    ->add('nom', TextType::class)
+    ->add('prenom', TextType::class)
+    ->add('roles', EntityType::class, [
+    'class' => Role::class,
+    'choice_label' => 'libelle',
+    'expanded' => true,
+    'multiple' => true,
+    ])
+    ->add('agreeTerms', CheckboxType::class, [
+      'mapped' => false,
+      'constraints' => [
+        new IsTrue([
+          'message' => 'Veuillez accepter les conditions tout de suite !!!',
+          ]),
+      ],
+    ])
+    ;
+  }
+
+  public function configureOptions(OptionsResolver $resolver) {
+    $resolver->setDefaults([
+      'data_class' => User::class,
+    ]);
+  }
+
 }
