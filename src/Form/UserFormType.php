@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-class RegistrationFormType extends AbstractType
+class UserFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,6 +38,7 @@ class RegistrationFormType extends AbstractType
             ])
           -> add('nom', TextType::class)
           -> add('prenom', TextType::class)
+          -> add('roles', TextType::class)
           ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

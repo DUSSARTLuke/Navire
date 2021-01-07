@@ -1,0 +1,33 @@
+{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block title %} Utilisateurs {% endblock %}
+{% block body %}
+  <div style="text-align: center;">
+    <h3> Liste des utilisateurs </h3>
+  </div>
+  <div class="container" style="padding-top:10px;">
+    <table class="table table-striped table-dark">
+      <thead class="thead-dark">
+        <tr>
+          <th> Nom</th>
+          <th> Prénom </th>
+          <th> Email </th>
+          <th> Roles </th>
+          <th> Détails </th>
+        </tr>
+      </thead>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.nom}}</td>
+          <td>{{ user.prenom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{% for role in user.roles %}
+            {{ role }} |
+          {% endfor %}</td>
+        <td><a href="/user/modifier/{{ user.id }}">Voir les détails</td>
+      </tr>
+      {% endfor %}
+      </table>
+    </div>
+    {% endblock %}
